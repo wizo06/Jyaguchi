@@ -1,0 +1,18 @@
+{
+  "name": "Jyaguchi",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "node src/app.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "discord.js": "^11.5.1",
+    "moment": "^2.24.0",
+    "toml": "^3.0.0",
+    "toml-require": "^1.2.0"
+  }
+}
