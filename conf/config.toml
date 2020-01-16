@@ -2,5 +2,6 @@
 token = ""
 adminID = [""]
 
-[path]
-mizore = ""
+[mizore]
+path = ""
+command = "./start.sh i e"

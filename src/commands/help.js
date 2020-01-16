@@ -8,11 +8,11 @@ const sendHelpMessage = msg => {
       fields: [
         {
           name: `j.start`,
-          value: `Start up worker with \`./start i e\``
+          value: `Start up Mizore with \`./start.sh i e\``
         },
         {
           name: `j.stop`,
-          value: `Stop worker by sending SIGINT`
+          value: `Stop Mizore by sending SIGINT`
         },
         {
           name: `j.ping`,
