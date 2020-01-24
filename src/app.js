@@ -5,7 +5,7 @@ require('toml-require').install({toml: require('toml')});
 
 // Import utils
 const Auth = require(path.join(process.cwd(), 'src/utils/auth.js'));
-const Logger = require(path.join(process.cwd(), 'src/utils/auth.js'));
+const Logger = require(path.join(process.cwd(), 'src/utils/logger.js'));
 
 // Import commands
 const { sendHelpMessage } = require(path.join(process.cwd(), 'src/commands/help.js'));
@@ -55,7 +55,7 @@ BOT.on('message', msg => {
           break;
       }
     }
-  });
+  };
 });
 
 // Simply log websocket connection error

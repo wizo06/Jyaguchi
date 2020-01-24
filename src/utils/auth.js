@@ -1,3 +1,4 @@
+const path = require('path');
 require('toml-require').install({toml: require('toml')});
 
 // Import config

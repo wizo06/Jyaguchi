@@ -1,3 +1,5 @@
+const path = require('path');
+
 // Import utils
 const Promisefied = require(path.join(process.cwd(), 'src/utils/promisefied.js'));
 const Logger = require(path.join(process.cwd(), 'src/utils/logger.js'));

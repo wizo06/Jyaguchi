@@ -1,5 +1,7 @@
+const path = require('path');
+
 // Import utils
-const Logger = require(path.join(process.cwd(), 'src/utils/auth.js'));
+const Logger = require(path.join(process.cwd(), 'src/utils/logger.js'));
 
 const ping = msg => {
   try {
