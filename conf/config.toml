@@ -3,6 +3,4 @@ token = ""
 adminID = [""]
 
 [mizore]
-absolute_path = ""
-command = "./start.sh docker encoder"
 container_name = "izumi-v5-encoder"

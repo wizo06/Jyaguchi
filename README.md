@@ -19,12 +19,8 @@ j.ping
 token = ""
 adminID = [""]
 ```
-2. and this
-```toml
-[mizore]
-absolute_path = ""
-```
-3. run these commands
+
+2. run these commands
 ```bash
 npm i
 npm start

@@ -31,19 +31,12 @@ const start = async msg => {
 const runStartCommand = () => {
   return new Promise(async (resolve, reject) => {
     try {
-      if (CONFIG.mizore.absolute_path === '') reject('Error: Path to Mizore is empty. Please fix this first.');
-      if (CONFIG.mizore.command === '') reject('Error: Command for Mizore is empty. Please fix this first.');
-      else {
-        let options = {
-          cwd: CONFIG.mizore.absolute_path,
-          shell: '/bin/bash'
-        };
-        await Promisefied.exec(CONFIG.mizore.command, options);
+      let command = `docker start ${CONFIG.mizore.container_name}`;
+      await Promisefied.exec(command);
 
-        // Check if container started successfully
-        if (await Docker.isContainerRunning()) resolve('Success: Mizore has been started.');
-        else resolve('Error: Failed to start Mizore.');
-      }
+      // Check if container started successfully
+      if (await Docker.isContainerRunning()) resolve('Success: Mizore has been started.');
+      else resolve('Error: Failed to start Mizore.');
     }
     catch (e) {
       Logger.error(e);
