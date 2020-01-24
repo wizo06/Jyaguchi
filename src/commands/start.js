@@ -1,5 +1,4 @@
 // Import node modules
-const { spawn } = require('child_process');
 const path = require('path');
 require('toml-require').install({toml: require('toml')});
 
@@ -7,49 +6,47 @@ require('toml-require').install({toml: require('toml')});
 const CONFIG = require(path.join(process.cwd(), 'conf/config.toml'));
 
 // Import utils
-const ChildProcess = require(path.join(process.cwd(), 'src/utils/child_process.js'));
+const Docker = require(path.join(process.cwd(), 'src/utils/docker.js'));
 const Logger = require(path.join(process.cwd(), 'src/utils/logger.js'));
+const Promisefied = require(path.join(process.cwd(), 'src/utils/promisefied.js'));
 
 /**
- * Check if subprocess is already running.
+ * Check if container is already running.
  * If it is, send error message to Discord
- * If not, run the subprocess command
+ * If not, run the start command
  */
 const start = async msg => {
   try {
-    if (await ChildProcess.isSubprocessRunning(CONFIG.mizore.command)) return msg.channel.send('Error: Mizore is already running.');
+    if (await Docker.isContainerRunning()) return msg.channel.send('Error: Mizore is already running.');
     else {
-        let response = await runSubprocess();
+        let response = await runStartCommand();
         msg.channel.send(response);
     }
   }
   catch (e) {
-    Logger.error(e)
+    Logger.error(e);
   }
 }
 
-const runSubprocess = () => {
+const runStartCommand = () => {
   return new Promise(async (resolve, reject) => {
-    if (CONFIG.mizore.path === '') reject('Error: Path to Mizore is empty. Please fix this first.');
-    if (CONFIG.mizore.command === '') reject('Error: Command for Mizore is empty. Please fix this first.');
-    else {
-      let command = CONFIG.mizore.command.split(' ')[0]; // ./start.sh
-      let args = CONFIG.mizore.command.split(' ').slice(1); // i e
-      let options = {
-        cwd: CONFIG.mizore.path,
-        stdio: '',
-        detached: true,
-        shell: '/bin/bash'
-      };
+    try {
+      if (CONFIG.mizore.absolute_path === '') reject('Error: Path to Mizore is empty. Please fix this first.');
+      if (CONFIG.mizore.command === '') reject('Error: Command for Mizore is empty. Please fix this first.');
+      else {
+        let options = {
+          cwd: CONFIG.mizore.absolute_path,
+          shell: '/bin/bash'
+        };
+        await Promisefied.exec(CONFIG.mizore.command, options);
 
-      let encoder = spawn(command, args, options);
-      encoder.stdout.on('data', data => process.stdout.write(data));
-      encoder.stderr.on('data', data => process.stdout.write(data));
-      encoder.on('close', code => console.log(code));
-
-      // Check if subprocess started successfully
-      if () resolve('Success: Mizore has been started up.');
-      else reject('Error: Mizore failed to start.');
+        // Check if container started successfully
+        if (await Docker.isContainerRunning()) resolve('Success: Mizore has been started.');
+        else resolve('Error: Failed to start Mizore.');
+      }
+    }
+    catch (e) {
+      Logger.error(e);
     }
   });
 }

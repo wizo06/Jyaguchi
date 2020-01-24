@@ -11,7 +11,8 @@ const Logger = require(path.join(process.cwd(), 'src/utils/auth.js'));
 const { sendHelpMessage } = require(path.join(process.cwd(), 'src/commands/help.js'));
 const { start } = require(path.join(process.cwd(), 'src/commands/start.js'));
 const { stop } = require(path.join(process.cwd(), 'src/commands/stop.js'));
-const { ping } = require(path.join(process.cwd(), 'src/commands/stop.js'));
+const { status } = require(path.join(process.cwd(), 'src/commands/status.js'));
+const { ping } = require(path.join(process.cwd(), 'src/commands/ping.js'));
 
 // Import config
 const CONFIG = require(path.join(process.cwd(), 'conf/config.toml'));
@@ -21,12 +22,10 @@ const BOT = new discord.Client();
 BOT.on('message', msg => {
   if (Auth.userHasPerm(msg.author.id)) {
     if (msg.content.startsWith('j.')) {
-      let command = msg.content.split(' ')[0];
-      let args = msg.content.split(' ').slice(1).join(' ');
       switch(msg.channel.type) {
         // Guild Messages
         case 'text':
-            Logger.info(`${msg.author.tag} [${msg.guild.name}#${msg.channel.name}] > ${command} ${args}`);
+            Logger.info(`${msg.author.tag} [${msg.guild.name}#${msg.channel.name}] > ${msg.content}`);
 
             switch(msg.content.split(' ')[0].slice(2)) {
               case 'help':
@@ -37,6 +36,9 @@ BOT.on('message', msg => {
                 break;
               case 'stop':
                 stop(msg);
+                break;
+              case 'status':
+                status(msg);
                 break;
               case 'ping':
                 ping(msg);
@@ -61,11 +63,10 @@ BOT.on('error', err => {
   Logger.error(err.message)
 });
 
-
 BOT.login(CONFIG.discord.token)
 .then(() => {
   Logger.info(`Logged in as ${BOT.user.tag}`);
   Logger.info(`**********************************************`, Logger.Colors.FgMagenta);
-  BOT.user.setActivity('wizo.sh',{type:'PLAYING'});
+  BOT.user.setActivity('wizo.xyz', { type: 'PLAYING' });
 })
 .catch(e => Logger.error(e));

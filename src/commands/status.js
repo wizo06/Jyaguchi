@@ -9,13 +9,13 @@ const Promisefied = require(path.join(process.cwd(), 'src/utils/promisefied.js')
 
 /**
  * Check if container is already running.
- * If it is, run docker stop
+ * If it is, send container's status
  * If not, send error message to Discord
  */
-const stop = async msg => {
+const status = async msg => {
   try {
     if (await Docker.isContainerRunning()) {
-      let response = await runStopCommand();
+      let response = await runStatusCommand();
       msg.channel.send(response);
     }
     else msg.channel.send('Error: Mizore is not running.');
@@ -25,24 +25,19 @@ const stop = async msg => {
   }
 }
 
-const runStopCommand = () => {
+const runStatusCommand = () => {
   return new Promise(async (resolve, reject) => {
     try {
-      let containerID = await Docker.getContainerID();
-
-      let command = `docker stop ${containerID}`;
-      await Promisefied.exec(command);
-
-      // Check if container stopped successfully
-      if (await Docker.isContainerRunning()) resolve('Error: Failed to stop Mizore.');
-      else resolve('Success: Mizore has been stopped.');
+      let containerStatus = await Docker.getContainerStatus();
+      resolve(`Status: \`${containerStatus}\``);
     }
     catch (e) {
       Logger.error(e);
+      reject();
     }
   });
 }
 
 module.exports = {
-  stop
+  status
 }

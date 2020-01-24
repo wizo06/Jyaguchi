@@ -8,11 +8,15 @@ const sendHelpMessage = msg => {
       fields: [
         {
           name: `j.start`,
-          value: `Start up Mizore with \`./start.sh i e\``
+          value: `Start up Mizore with \`cd MIZORE_PATH && ./start.sh docker encoder\``
         },
         {
           name: `j.stop`,
-          value: `Stop Mizore by sending SIGINT`
+          value: `Stop Mizore with \`docker stop CONTAINER_ID\``
+        },
+        {
+          name: `j.status`,
+          value: `Display the status of Mizore's container`
         },
         {
           name: `j.ping`,
