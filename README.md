@@ -25,7 +25,3 @@ adminID = [""]
 npm i
 npm start
 ```
-
-# TODO
-
-- [ ] Display container's status as Jyaguchi's activity
