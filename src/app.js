@@ -66,10 +66,11 @@ BOT.on('error', err => {
 });
 
 BOT.login(CONFIG.discord.token)
-  .then(() => {
+  .then(async () => {
     Logger.info(`Logged in as ${BOT.user.tag}`);
     Logger.info(`**********************************************`, Logger.Colors.FgMagenta);
-    BOT.user.setActivity('wizo.xyz', { type: 'PLAYING' });
+    let containerStatus = await Docker.getContainerStatus();
+    BOT.user.setActivity(`${containerStatus}`, { type: 'PLAYING' });
   })
   .catch(e => Logger.error(e));
 
