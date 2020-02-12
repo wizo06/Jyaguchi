@@ -76,7 +76,7 @@ BOT.login(CONFIG.discord.token)
 // Create Express app
 const app = express();
 
-app.get('/', (req, res) => {
+app.get('/', async (req, res) => {
   res.status(202).send('ok');
   try {
     let containerStatus = await Docker.getContainerStatus();

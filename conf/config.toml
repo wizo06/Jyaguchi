@@ -3,4 +3,4 @@ token = ""
 adminID = [""]
 
 [mizore]
-container_name = "izumi-v5-encoder"
+container_name = "izumi-v5-worker"
